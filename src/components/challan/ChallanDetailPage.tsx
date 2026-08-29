@@ -479,14 +479,13 @@ export default function ChallanDetailPage({
                 Download Challan
               </button>
 
-              <button
-                type="button"
-                onClick={() => notify("Redirecting to dispute grievance portal...")}
+              <Link
+                href="/challan/dispute"
                 className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-xl border border-[#CBD5E1] bg-white px-4 text-xs font-bold text-[#172554] shadow-2xs transition hover:bg-[#F8FAFC]"
               >
                 <ShieldCheck size={15} />
                 Dispute Challan
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -885,12 +884,14 @@ export default function ChallanDetailPage({
                   Download Challan
                 </ActionRow>
 
-                <ActionRow
-                  icon={ShieldCheck}
-                  onClick={() => notify("Redirecting to dispute grievance portal...")}
+                <Link
+                  href="/challan/dispute"
+                  className="flex min-h-[46px] w-full items-center gap-3 border-b border-[#E2E8F0] py-2 text-left text-xs font-semibold text-[#1A56DB] last:border-b-0 transition hover:bg-[#F8FAFC] rounded-lg px-2"
                 >
-                  Dispute Challan
-                </ActionRow>
+                  <ShieldCheck size={16} className="text-[#2563EB]" />
+                  <span className="flex-1">Dispute Challan</span>
+                  <ChevronRight size={15} className="text-[#94A3B8]" />
+                </Link>
 
                 <ActionRow icon={Share2} onClick={shareChallan}>
                   Share Challan

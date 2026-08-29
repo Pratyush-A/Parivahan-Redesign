@@ -303,12 +303,13 @@ function PendingCard({
               View Details
             </Link>
 
-            <ActionButton
-              icon={ShieldCheck}
-              onClick={() => onAction(`Initiating dispute process for ${challan.number}`)}
+            <Link
+              href="/challan/dispute"
+              className="flex min-h-[42px] flex-1 items-center justify-center gap-2 text-xs font-bold text-[#1A56DB] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9]"
             >
+              <ShieldCheck size={15} />
               Dispute Challan
-            </ActionButton>
+            </Link>
 
             <ActionButton
               icon={Download}
@@ -323,7 +324,7 @@ function PendingCard({
   );
 }
 
-function PaidCard({ onAction }: { onAction: (msg: string) => void }) {
+function PaidCard() {
   const [expanded, setExpanded] = useState(true);
 
   return (
@@ -426,19 +427,21 @@ function PaidCard({ onAction }: { onAction: (msg: string) => void }) {
           </div>
 
           <div className="flex divide-x divide-[#E2E8F0] border-t border-[#E2E8F0]">
-            <ActionButton
-              icon={Receipt}
-              onClick={() => onAction(`Receipt downloaded for ${paidChallan.paymentId}`)}
+            <Link
+              href={`/challan/receipt/${paidChallan.paymentId}?amount=${paidChallan.amount}&reference=${paidChallan.number}`}
+              className="flex min-h-[42px] flex-1 items-center justify-center gap-2 text-xs font-bold text-[#1A56DB] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9]"
             >
+              <Receipt size={15} />
               View Receipt
-            </ActionButton>
+            </Link>
 
-            <ActionButton
-              icon={Download}
-              onClick={() => onAction(`Receipt prepared for download.`)}
+            <Link
+              href={`/challan/receipt/${paidChallan.paymentId}?amount=${paidChallan.amount}&reference=${paidChallan.number}`}
+              className="flex min-h-[42px] flex-1 items-center justify-center gap-2 text-xs font-bold text-[#1A56DB] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9]"
             >
+              <Download size={15} />
               Download
-            </ActionButton>
+            </Link>
           </div>
         </>
       )}
@@ -798,7 +801,7 @@ export default function ChallanResultsPage() {
                     Paid (1)
                   </div>
 
-                  <PaidCard onAction={notify} />
+                  <PaidCard />
                 </div>
               )}
             </section>
