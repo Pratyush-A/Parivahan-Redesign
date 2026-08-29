@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f9fa;
+  --surface: #ffffff;
+  --primary: #172554;
+  --primary-hover: #1e3a8a;
+  --accent-saffron: #f59e0b;
+  --success: #15803d;
+  --warning: #b45309;
+  --error: #b91c1c;
+  --text-primary: #111827;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --trust-blue: #0ea5e9;
+  --focus-ring: #0ea5e9;
+  --font-sans: var(--font-inter), var(--font-devanagari), var(--font-oriya), system-ui, sans-serif;
+  --content-max-width: 80rem;
+  --content-padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-accent-saffron: var(--accent-saffron);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-border: var(--border);
+  --color-trust-blue: var(--trust-blue);
+  --font-sans: var(--font-sans);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    &:focus-visible {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+  }
+
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+
+  ::selection {
+    background: var(--trust-blue);
+    color: var(--surface);
+  }
+}
