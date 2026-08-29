@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   AlertCircle,
   ArrowRight,
@@ -218,13 +219,13 @@ function OverviewRow({
 }
 
 export default function ChallanLandingPage() {
+  const router = useRouter();
   const [mode, setMode] = useState<CheckMode>("vehicle");
   const [value, setValue] = useState("MH12AB1234");
   const [ownerName, setOwnerName] = useState("");
   const [state, setState] = useState("");
   const [error, setError] = useState("");
   const [showKnowMore, setShowKnowMore] = useState(false);
-  const [showResultsToast, setShowResultsToast] = useState(false);
 
   function handleModeChange(nextMode: CheckMode) {
     setMode(nextMode);
@@ -241,8 +242,7 @@ export default function ChallanLandingPage() {
     }
 
     setError("");
-    setShowResultsToast(true);
-    setTimeout(() => setShowResultsToast(false), 4000);
+    router.push("/services/challan/results");
   }
 
   return (
@@ -250,24 +250,6 @@ export default function ChallanLandingPage() {
       id="main-content"
       className="min-h-screen bg-[#F8F9FA] pb-16 text-[#111827]"
     >
-      {/* Toast alert */}
-      {showResultsToast && (
-        <div
-          className="fixed right-5 top-24 z-[90] flex max-w-[360px] items-start gap-3 rounded-xl border border-[#BBF7D0] bg-white px-4 py-3 shadow-xl"
-          role="status"
-          aria-live="polite"
-        >
-          <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[#15803D]" />
-          <div>
-            <p className="text-xs font-bold text-[#172554]">
-              Found 2 pending challans for {value}
-            </p>
-            <p className="mt-0.5 text-[11px] text-[#64748B]">
-              Total amount due: ₹1,500. Pay before 25 May 2026.
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* =====================================================
           1. BREADCRUMB
@@ -500,13 +482,14 @@ export default function ChallanLandingPage() {
                   </p>
                 )}
 
-                {/* Primary Search Button */}
+                {/* Primary Search & Pay Button */}
                 <button
                   type="submit"
                   className="mt-6 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-6 text-xs font-bold text-white !text-white shadow-sm transition hover:bg-[#1D4ED8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9] focus-visible:ring-offset-2"
                 >
                   <Search size={15} className="text-white !text-white" />
-                  <span className="text-white !text-white">Check Challan</span>
+                  <span className="text-white !text-white">Check & Pay Challan</span>
+                  <ArrowRight size={15} className="text-white !text-white" />
                 </button>
 
                 <div className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-[#64748B]">
@@ -564,14 +547,26 @@ export default function ChallanLandingPage() {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={handleSearch}
-              className="mt-6 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-[#2563EB] bg-white px-4 text-xs font-bold text-[#2563EB] shadow-2xs transition hover:bg-[#EFF6FF]"
-            >
-              <Eye size={16} />
-              View All Challans
-            </button>
+            <div className="mt-6 flex flex-col gap-2.5">
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-4 text-xs font-bold text-white !text-white shadow-sm transition hover:bg-[#1D4ED8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9]"
+              >
+                <CreditCard size={16} className="text-white !text-white" />
+                <span className="text-white !text-white">Pay Pending Challans (₹1,500)</span>
+                <ArrowRight size={15} className="text-white !text-white" />
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl border border-[#CBD5E1] bg-white px-4 text-xs font-bold text-[#172554] shadow-2xs transition hover:bg-[#F8FAFC]"
+              >
+                <Eye size={15} />
+                View All Challans
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -596,7 +591,7 @@ export default function ChallanLandingPage() {
               onClick={handleSearch}
               className="text-xs font-bold text-[#1A56DB] hover:underline"
             >
-              View all
+              View all & Pay →
             </button>
           </div>
 
@@ -604,7 +599,11 @@ export default function ChallanLandingPage() {
             {recentActivity.map((item) => (
               <div
                 key={`${item.number}-${item.date}`}
-                className="flex min-h-[72px] items-center gap-3 py-3 first:pt-0 last:pb-0 md:px-5 md:py-1 first:md:pl-0 last:md:pr-0"
+                onClick={handleSearch}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                className="group flex min-h-[72px] cursor-pointer items-center gap-3 py-3 first:pt-0 last:pb-0 transition hover:bg-[#F8FAFC] rounded-lg md:px-5 md:py-2 first:md:pl-0 last:md:pr-0"
               >
                 <div
                   className={[
@@ -650,7 +649,7 @@ export default function ChallanLandingPage() {
                     {item.amount}
                   </span>
 
-                  <ChevronRight size={15} className="text-[#94A3B8]" />
+                  <ChevronRight size={15} className="text-[#94A3B8] transition-transform group-hover:translate-x-0.5" />
                 </div>
               </div>
             ))}
